@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "Suisse Int'l";
+    src: url("https://db.onlinewebfonts.com/t/13ab13418f633c1b0516fed6e30bedbc.eot");
+    src: url("https://db.onlinewebfonts.com/t/13ab13418f633c1b0516fed6e30bedbc.eot?#iefix")format("embedded-opentype"),
+        url("https://db.onlinewebfonts.com/t/13ab13418f633c1b0516fed6e30bedbc.woff2")format("woff2"),
+        url("https://db.onlinewebfonts.com/t/13ab13418f633c1b0516fed6e30bedbc.woff")format("woff"),
+        url("https://db.onlinewebfonts.com/t/13ab13418f633c1b0516fed6e30bedbc.ttf")format("truetype"),
+        url("https://db.onlinewebfonts.com/t/13ab13418f633c1b0516fed6e30bedbc.svg#Suisse Int'l")format("svg");
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    src: url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
+}
