@@ -1,10 +1,14 @@
 {
-  "name": "brand-new-project",
+  "name": "instagram-outreach",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
+    "format": "bunx prettier app/ -w --config package.json",
+    "lint": "eslint --no-error-on-unmatched-pattern --ext .js,.ts,.jsx,.tsx .",
+    "prepush": "bun sort && bun format && bun lint",
+    "sort": "bunx sort-package-json",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"
   },
