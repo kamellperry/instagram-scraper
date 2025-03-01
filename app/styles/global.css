@@ -17,7 +17,7 @@
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-brand:
+  --font-alchemy:
     "Suisse Int'l", ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-mono:
@@ -28,14 +28,14 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --color-brand: oklch(52.33% 0.2574 266.05);
-  --color-brand-bg: oklch(14.48% 0 0);
-  --color-brand-brand: oklch(45.07% 0.31220473730846815 264.0530081041834);
-  --color-brand-card-secondary: oklch(22.64% 0 0);
-  --color-brand-card-tertiary: oklch(26.45% 0 0);
-  --color-brand-font-heading: oklch(96.12% 0 0);
-  --color-brand-font-body: oklch(56.24% 0 0);
-  --color-brand-font-subheading: oklch(43.86% 0 0);
+  --color-alchemy: oklch(52.33% 0.2574 266.05);
+  --color-alchemy-bg: oklch(14.48% 0 0);
+  --color-alchemy-alchemy: oklch(45.07% 0.31220473730846815 264.0530081041834);
+  --color-alchemy-card-secondary: oklch(22.64% 0 0);
+  --color-alchemy-card-tertiary: oklch(26.45% 0 0);
+  --color-alchemy-font-heading: oklch(96.12% 0 0);
+  --color-alchemy-font-body: oklch(56.24% 0 0);
+  --color-alchemy-font-subheading: oklch(43.86% 0 0);
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));

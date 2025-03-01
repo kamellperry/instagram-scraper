@@ -36,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode; }) {
         <Meta />
         <Links />
       </head>
-      <body className={cn('min-h-dvh font-brand antialiased')}>
+      <body className={cn('min-h-dvh font-alchemy antialiased')}>
         <PageLayout>{children}</PageLayout>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />

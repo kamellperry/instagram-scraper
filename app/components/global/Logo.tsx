@@ -10,7 +10,7 @@ export default function Logo({ className, width, height }: LogoProps) {
       xmlns="http://www.w3.org/2000/svg"
       className={cn(className)}
     >
-      <rect width="512" height="512" fill="hsl(var(--color-brand))" />
+      <rect width="512" height="512" fill="hsl(var(--color-alchemy))" />
       <path
         d="M287.728 149.803C287.728 161.845 277.966 171.606 265.925 171.606C253.884 171.606 244.122 161.844 244.122 149.803C244.122 137.761 253.884 128 265.925 128C277.967 128 287.728 137.762 287.728 149.803Z"
         fill="white"

@@ -29,8 +29,8 @@
     }
 
     .dark {
-        /* brand theme */
-        --color-brand: 52.33% 0.2574 266.05;
+        /* alchemy theme */
+        --color-alchemy: 52.33% 0.2574 266.05;
 
         /* Shadcn UI theme */
         --background: 0 0% 3.92%;
