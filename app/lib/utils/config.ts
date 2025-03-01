@@ -1,7 +1,7 @@
 import type { AppConfig } from '~/lib/types';
 
-const name = 'Company Name';
-export const DEFAULT_URL = "https://example.com/";
+const name = 'Instagram Outreach';
+export const DEFAULT_URL = "https://scraper.alchemylabs.design/";
 
 const config: AppConfig = {
     name,
