@@ -1,5 +1,6 @@
 @import './typography.css' layer(base);
 @import './theme.css' layer(base);
+@import './components.css' layer(components);
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
@@ -188,6 +189,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

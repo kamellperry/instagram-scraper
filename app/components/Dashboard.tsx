@@ -19,6 +19,7 @@ import {
     Menu,
     ChevronLeft,
     ChevronRight,
+    RefreshCw,
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
@@ -36,71 +37,7 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "~/components/ui/sidebar";
-
-interface ProfileData {
-    id: string;
-    row_number: number;
-    ownerFullName: string;
-    locationName: string;
-    postType: string;
-    caption: string;
-    url: string;
-    commentsCount: number;
-    likesCount: number;
-    timestamp: string;
-    ownerUsername: string;
-    ownerId: number;
-    displayUrl: string;
-}
-
-// Sample data array for demonstration
-const sampleProfilesData: ProfileData[] = [
-    {
-        id: "2934856123478",
-        row_number: 1,
-        ownerFullName: "Sarah Johnson",
-        locationName: "San Francisco, California",
-        postType: "Image",
-        caption: "Enjoying a beautiful day at Golden Gate Park! #weekend #sanfrancisco",
-        url: "https://instagram.com/p/abc123",
-        commentsCount: 42,
-        likesCount: 1287,
-        timestamp: "2023-09-15T14:23:45Z",
-        ownerUsername: "sarahjohnson",
-        ownerId: 8675309,
-        displayUrl: "/placeholder.svg?height=600&width=600",
-    },
-    {
-        id: "2934856123479",
-        row_number: 2,
-        ownerFullName: "Mike Smith",
-        locationName: "New York City",
-        postType: "Image",
-        caption: "City lights and late nights! 🌃 #nyc #nightlife",
-        url: "https://instagram.com/p/def456",
-        commentsCount: 89,
-        likesCount: 2431,
-        timestamp: "2023-09-16T02:15:00Z",
-        ownerUsername: "mikesmith",
-        ownerId: 8675310,
-        displayUrl: "/placeholder.svg?height=600&width=600",
-    },
-    {
-        id: "2934856123480",
-        row_number: 3,
-        ownerFullName: "Emma Davis",
-        locationName: "London, UK",
-        postType: "Image",
-        caption: "Afternoon tea at its finest ☕️ #london #teatime",
-        url: "https://instagram.com/p/ghi789",
-        commentsCount: 56,
-        likesCount: 1892,
-        timestamp: "2023-09-16T15:45:00Z",
-        ownerUsername: "emmadavis",
-        ownerId: 8675311,
-        displayUrl: "/placeholder.svg?height=600&width=600",
-    },
-];
+import type { ProfileData } from '~/lib/types';
 
 interface ProfileContentProps {
     profileData: ProfileData;
@@ -312,7 +249,12 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
     );
 };
 
-export default function ProfileDashboard({ profiles = sampleProfilesData }: { profiles?: ProfileData[]; }) {
+interface DashboardProps {
+    profiles: ProfileData[];
+    onRefresh?: () => void;
+}
+
+export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [direction, setDirection] = useState(0);
@@ -533,6 +475,15 @@ export default function ProfileDashboard({ profiles = sampleProfilesData }: { pr
                     )}
 
                     <main className="flex-1 overflow-auto p-4 sm:p-6">
+                        <div className="mb-6 flex items-center justify-between">
+                            <h1 className="text-2xl font-bold">Dashboard</h1>
+                            {onRefresh && (
+                                <Button onClick={onRefresh} variant="outline" size="sm">
+                                    <RefreshCw className="mr-2 h-4 w-4" />
+                                    Refresh Data
+                                </Button>
+                            )}
+                        </div>
                         <AnimatePresence mode="wait" initial={false}>
                             <ProfileContent key={currentProfile.id} profileData={currentProfile} direction={direction} />
                         </AnimatePresence>
