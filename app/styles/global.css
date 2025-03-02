@@ -83,7 +83,8 @@
 */
 @layer base {
   :root {
-    --header-height: 75px;
+    /* --header-height: 75px; */
+    --header-height: 0px;
   }
 
   *,

@@ -21,7 +21,7 @@ import {
     ChevronRight,
     RefreshCw,
 } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { BrandButton } from "~/components/ui";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
@@ -58,9 +58,10 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
     // Get initials for avatar fallback
     const getInitials = (name: string) => {
         return name
-            .split(" ")
+            .split(' ')
             .map((part) => part.charAt(0))
-            .join("")
+            .splice(0, 2)
+            .join('')
             .toUpperCase();
     };
 
@@ -109,10 +110,12 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                         </div>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2 sm:mt-0">
-                        <Button size="sm">Follow</Button>
-                        <Button size="sm" variant="outline">
-                            Message
-                        </Button>
+                        <BrandButton variant="black" size="sm" className="rounded-md">Follow</BrandButton>
+                        <BrandButton variant="blue" size="sm" className="rounded-md" asChild>
+                            <Link to={`https://ig.me/m/${profileData.ownerUsername}`} target="_blank" rel="noopener noreferrer">
+                                Message
+                            </Link>
+                        </BrandButton>
                     </div>
                 </CardHeader>
             </Card>
@@ -148,12 +151,12 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-between border-t pt-4">
-                        <Button variant="ghost" size="sm" asChild>
+                        <BrandButton variant="blue" size="sm" asChild>
                             <Link to={profileData.url} target="_blank" rel="noopener noreferrer">
                                 <ExternalLink className="mr-2 h-4 w-4" />
                                 View Original
                             </Link>
-                        </Button>
+                        </BrandButton>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-1">
                                 <Heart className="h-4 w-4 text-rose-500" />
@@ -378,41 +381,40 @@ export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
 
                 <div className="flex flex-1 flex-col">
                     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
-                        <Button
-                            variant="ghost"
+                        <BrandButton
+                            variant="white"
                             size="icon"
                             className="md:hidden"
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         >
                             <Menu className="h-5 w-5" />
                             <span className="sr-only">Toggle menu</span>
-                        </Button>
+                        </BrandButton>
                         <div className="flex flex-1 items-center justify-between">
                             <h1 className="text-lg font-semibold">Profile Dashboard</h1>
                             <div className="flex items-center gap-2">
-                                <Button
-                                    variant="outline"
-                                    size="icon"
+
+                                <BrandButton
+                                    variant="black"
+                                    size="sm"
                                     onClick={goToPreviousProfile}
                                     disabled={currentIndex === 0}
-                                    className="h-8 w-8 cursor-pointer"
                                 >
                                     <ChevronLeft className="h-4 w-4" />
                                     <span className="sr-only">Previous profile</span>
-                                </Button>
+                                </BrandButton>
                                 <span className="text-sm text-muted-foreground">
                                     {currentIndex + 1} of {profiles.length}
                                 </span>
-                                <Button
-                                    variant="outline"
-                                    size="icon"
+                                <BrandButton
+                                    variant="black"
+                                    size="sm"
                                     onClick={goToNextProfile}
                                     disabled={currentIndex === profiles.length - 1}
-                                    className="h-8 w-8 cursor-pointer"
                                 >
                                     <ChevronRight className="h-4 w-4" />
                                     <span className="sr-only">Next profile</span>
-                                </Button>
+                                </BrandButton>
                             </div>
                         </div>
                         <SidebarTrigger className="hidden md:flex" />
@@ -421,10 +423,10 @@ export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
                     {isMobileMenuOpen && (
                         <div className="fixed inset-0 z-50 bg-background md:hidden">
                             <div className="flex h-14 items-center border-b px-4">
-                                <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
+                                <BrandButton variant="white" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
                                     <Menu className="h-5 w-5" />
                                     <span className="sr-only">Close menu</span>
-                                </Button>
+                                </BrandButton>
                                 <div className="ml-4">
                                     <h2 className="text-lg font-semibold">Menu</h2>
                                 </div>
@@ -478,10 +480,10 @@ export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
                         <div className="mb-6 flex items-center justify-between">
                             <h1 className="text-2xl font-bold">Dashboard</h1>
                             {onRefresh && (
-                                <Button onClick={onRefresh} variant="outline" size="sm">
+                                <BrandButton onClick={onRefresh} variant="black" size="sm">
                                     <RefreshCw className="mr-2 h-4 w-4" />
                                     Refresh Data
-                                </Button>
+                                </BrandButton>
                             )}
                         </div>
                         <AnimatePresence mode="wait" initial={false}>

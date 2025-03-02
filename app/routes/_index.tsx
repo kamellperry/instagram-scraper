@@ -7,6 +7,11 @@ import type { Route } from "./+types/_index";
 import type { ProfileData } from '~/lib/types';
 import { useNavigate, useRevalidator, type ShouldRevalidateFunctionArgs } from 'react-router';
 
+const URL = [
+    "https://eros-co.app.n8n.cloud/webhook/17badf3a-b82f-459c-8951-85faf4210229",
+    // "https://eros-co.app.n8n.cloud/webhook-test/17badf3a-b82f-459c-8951-85faf4210229"
+].join("");
+
 export interface LoaderErrorData {
     code: number;
     message: string;
@@ -50,12 +55,11 @@ export async function loader({ request }: Route.LoaderArgs) {
     // Otherwise fetch fresh data
     try {
         console.log("Fetching fresh data");
-        const response = await fetch("https://eros-co.app.n8n.cloud/webhook-test/17badf3a-b82f-459c-8951-85faf4210229");
+        const response = await fetch(URL);
         const data: ProfileData[] = await response.json();
 
         if (!data || !Array.isArray(data)) {
             const noDataError = new Error("No data returned from server");
-            const wrongTypeError = new Error("Data returned from server is not an array");
             throw !data ? noDataError : data;
         }
 

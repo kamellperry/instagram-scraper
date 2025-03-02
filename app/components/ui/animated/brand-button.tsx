@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { cn } from '~/lib/utils';
+import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from 'class-variance-authority';
 
 const buttonVariants = cva(
@@ -11,6 +11,7 @@ const buttonVariants = cva(
                 default: "h-11 px-6 py-2",
                 sm: "h-9 px-4 py-1.5 text-xs",
                 lg: "h-14 px-8 py-3 text-base",
+                icon: "size-9",
             },
             variant: {
                 default: "animate-divine-pulse",
@@ -43,11 +44,13 @@ export interface BrandButtonProps
 }
 
 const BrandButton = React.forwardRef<HTMLButtonElement, BrandButtonProps>(
-    ({ className, size, variant, ...props }, ref) => {
+    ({ className, size, variant, asChild = false, ...props }, ref) => {
+        const Comp = asChild ? Slot : "button";
+
         return (
-            <button
-                className={cn(buttonVariants({ size, variant, className }))}
-                ref={ref}
+            <Comp
+                data-slot="button"
+                className={cn(buttonVariants({ variant, size, className }))}
                 {...props}
             />
         );
