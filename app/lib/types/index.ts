@@ -11,9 +11,7 @@ export interface ProfileData {
     commentsCount: number;
     likesCount: number;
     timestamp: string;
-    locationId: string;
     ownerUsername: string;
     ownerId: number;
-    isSponsored: boolean;
     displayUrl: string;
 }
