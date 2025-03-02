@@ -133,11 +133,18 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                     </CardHeader>
                     <CardContent className="grid gap-6">
                         <div className="relative aspect-square overflow-hidden rounded-md sm:aspect-video">
-                            <img
-                                src={"/svgs/placeholder.svg"}
-                                alt="Post image"
-                                className="object-cover"
-                            />
+                            {profileData.videoUrl && (
+                                <video muted controls className="object-contain w-full h-full">
+                                    <source src={profileData.videoUrl} type="video/mp4" />
+                                </video>
+                            )}
+                            {profileData.images && profileData.images.length > 0 && (
+                                <img
+                                    src={"/svgs/placeholder.svg"}
+                                    alt="Post image"
+                                    className="object-cover"
+                                />
+                            )}
                         </div>
                         <div>
                             <h3 className="mb-2 font-semibold">Caption</h3>
