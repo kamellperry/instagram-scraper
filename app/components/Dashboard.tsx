@@ -21,7 +21,7 @@ import {
     ChevronRight,
     RefreshCw,
 } from "lucide-react";
-import { BrandButton } from "~/components/ui";
+import { BrandButton, Button } from "~/components/ui";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
@@ -110,7 +110,11 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                         </div>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2 sm:mt-0">
-                        <BrandButton variant="black" size="sm" className="rounded-md">Follow</BrandButton>
+                        <BrandButton variant="black" size="sm" className="rounded-md">
+                            <Link to={`https://www.instagram.com/${profileData.ownerUsername}`} target="_blank" rel="noopener noreferrer">
+                                Follow
+                            </Link>
+                        </BrandButton>
                         <BrandButton variant="blue" size="sm" className="rounded-md" asChild>
                             <Link to={`https://ig.me/m/${profileData.ownerUsername}`} target="_blank" rel="noopener noreferrer">
                                 Message
@@ -392,29 +396,36 @@ export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
                         </BrandButton>
                         <div className="flex flex-1 items-center justify-between">
                             <h1 className="text-lg font-semibold">Profile Dashboard</h1>
-                            <div className="flex items-center gap-2">
-
-                                <BrandButton
-                                    variant="black"
-                                    size="sm"
-                                    onClick={goToPreviousProfile}
-                                    disabled={currentIndex === 0}
-                                >
-                                    <ChevronLeft className="h-4 w-4" />
-                                    <span className="sr-only">Previous profile</span>
-                                </BrandButton>
-                                <span className="text-sm text-muted-foreground">
-                                    {currentIndex + 1} of {profiles.length}
-                                </span>
-                                <BrandButton
-                                    variant="black"
-                                    size="sm"
-                                    onClick={goToNextProfile}
-                                    disabled={currentIndex === profiles.length - 1}
-                                >
-                                    <ChevronRight className="h-4 w-4" />
-                                    <span className="sr-only">Next profile</span>
-                                </BrandButton>
+                            <div className="flex items-center gap-10">
+                                {onRefresh && (
+                                    <BrandButton onClick={onRefresh} variant="black" size="sm">
+                                        <RefreshCw className="mr-2 h-4 w-4" />
+                                        Refresh Data
+                                    </BrandButton>
+                                )}
+                                <div className="flex items-center gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={goToPreviousProfile}
+                                        disabled={currentIndex === 0}
+                                    >
+                                        <ChevronLeft className="h-4 w-4" />
+                                        <span className="sr-only">Previous profile</span>
+                                    </Button>
+                                    <span className="text-sm text-muted-foreground">
+                                        {currentIndex + 1} of {profiles.length}
+                                    </span>
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={goToNextProfile}
+                                        disabled={currentIndex === profiles.length - 1}
+                                    >
+                                        <ChevronRight className="h-4 w-4" />
+                                        <span className="sr-only">Next profile</span>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                         <SidebarTrigger className="hidden md:flex" />
@@ -477,15 +488,6 @@ export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
                     )}
 
                     <main className="flex-1 overflow-auto p-4 sm:p-6">
-                        <div className="mb-6 flex items-center justify-between">
-                            <h1 className="text-2xl font-bold">Dashboard</h1>
-                            {onRefresh && (
-                                <BrandButton onClick={onRefresh} variant="black" size="sm">
-                                    <RefreshCw className="mr-2 h-4 w-4" />
-                                    Refresh Data
-                                </BrandButton>
-                            )}
-                        </div>
                         <AnimatePresence mode="wait" initial={false}>
                             <ProfileContent key={currentProfile.id} profileData={currentProfile} direction={direction} />
                         </AnimatePresence>
