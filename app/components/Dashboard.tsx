@@ -95,7 +95,7 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                         <Avatar className="h-16 w-16">
                             <AvatarImage
                                 crossOrigin="anonymous"
-                                src={profileData.displayUrl}
+                                src={`/proxy-image?url=${encodeURIComponent(profileData.displayUrl)}`}
                                 alt={profileData.ownerFullName}
                             />
                             <AvatarFallback className="text-lg">{getInitials(profileData.ownerFullName)}</AvatarFallback>

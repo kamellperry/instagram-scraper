@@ -1,15 +1,15 @@
 import Dashboard from '~/components/Dashboard';
 import { useCallback } from 'react';
 import { PageWrapper } from "~/components/global";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Button, BrandButton } from '~/components/ui';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, BrandButton } from '~/components/ui';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import type { Route } from "./+types/_index";
 import type { ProfileData } from '~/lib/types';
 import { useNavigate, useRevalidator, type ShouldRevalidateFunctionArgs } from 'react-router';
 
 const URL = [
-    "https://eros-co.app.n8n.cloud/webhook/17badf3a-b82f-459c-8951-85faf4210229",
-    // "https://eros-co.app.n8n.cloud/webhook-test/17badf3a-b82f-459c-8951-85faf4210229"
+    // "https://eros-co.app.n8n.cloud/webhook/17badf3a-b82f-459c-8951-85faf4210229",
+    "https://eros-co.app.n8n.cloud/webhook-test/17badf3a-b82f-459c-8951-85faf4210229"
 ].join("");
 
 export interface LoaderErrorData {
@@ -97,12 +97,7 @@ export function shouldRevalidate({ formAction, formMethod, defaultShouldRevalida
 
 export default function Page({ loaderData }: Route.ComponentProps) {
     const { data } = loaderData;
-    const navigate = useNavigate();
     const revalidator = useRevalidator();
-
-    const handleGoBack = useCallback(() => {
-        navigate(-1);
-    }, [navigate]);
 
     const handleRefresh = useCallback(() => {
         // Invalidate cache and trigger revalidation
@@ -117,7 +112,6 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             message={message}
             code={code}
             hint={hint}
-            onGoBack={handleGoBack}
             onRefresh={handleRefresh}
         />;
     }
@@ -132,10 +126,9 @@ function PageError({
     message,
     code,
     hint,
-    onGoBack,
     onRefresh
 }: LoaderErrorData & {
-    onGoBack: () => void,
+    onGoBack?: () => void,
     onRefresh: () => void;
 }) {
     return (
@@ -154,7 +147,7 @@ function PageError({
                     <p className="text-muted-foreground">{hint}</p>
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-2 sm:flex-row sm:justify-between sm:space-x-2 sm:space-y-0">
-                    <BrandButton variant='black' className="w-full" onClick={onRefresh}>
+                    <BrandButton variant='black' className="w-full" onClick={() => window.location.reload()}>
                         <RefreshCw className="mr-2 h-4 w-4" />
                         Try Again
                     </BrandButton>
