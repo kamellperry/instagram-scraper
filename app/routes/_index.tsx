@@ -5,7 +5,20 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, 
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import type { Route } from "./+types/_index";
 import type { ProfileData } from '~/lib/types';
-import { useNavigate, useRevalidator, type ShouldRevalidateFunctionArgs } from 'react-router';
+import { useRevalidator, type ShouldRevalidateFunctionArgs } from 'react-router';
+// --
+import { ExperimentalDashboard } from '~/components/NewDashboard';
+import { AppSidebar } from "~/components/app-sidebar";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "~/components/ui/breadcrumb";
+import { Separator } from "~/components/ui/separator";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 
 const URL = [
     // "https://eros-co.app.n8n.cloud/webhook/17badf3a-b82f-459c-8951-85faf4210229",
@@ -96,6 +109,32 @@ export function shouldRevalidate({ formAction, formMethod, defaultShouldRevalida
 }
 
 export default function Page({ loaderData }: Route.ComponentProps) {
+    const { data } = loaderData;
+    const revalidator = useRevalidator();
+
+    const handleRefresh = useCallback(() => {
+        // Invalidate cache and trigger revalidation
+        cache.invalidate();
+        revalidator.revalidate();
+    }, [revalidator]);
+
+    if (!(data instanceof Array)) {
+        const { message, code, hint } = data;
+
+        return <PageError
+            message={message}
+            code={code}
+            hint={hint}
+            onRefresh={handleRefresh}
+        />;
+    }
+    return (
+        <ExperimentalDashboard profiles={data} onRefresh={handleRefresh} />
+    );
+}
+
+// Root
+export function _Page({ loaderData }: Route.ComponentProps) {
     const { data } = loaderData;
     const revalidator = useRevalidator();
 
