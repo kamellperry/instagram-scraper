@@ -5,6 +5,8 @@ import { BrandButton } from "~/components/ui";
 import { Card, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import type { ProfileData } from "~/lib/types";
+/** @todo: remove this function once we have proper asset fetching */
+import { getAssetURL } from "./lead-dashboard-content";
 
 export function ProfileHeader({ profileData }: { profileData: ProfileData; }) {
     return (
@@ -14,8 +16,7 @@ export function ProfileHeader({ profileData }: { profileData: ProfileData; }) {
                     <Avatar className="h-16 w-16">
                         <AvatarImage
                             crossOrigin="anonymous"
-                            // src={`/api?url=${encodeURIComponent(profileData.displayUrl)}`}
-                            src={undefined}
+                            src={getAssetURL(profileData.displayUrl, { testing: true })}
                             alt={profileData.ownerFullName}
                         />
                         <AvatarFallback className="text-lg">{getInitials(profileData.ownerFullName)}</AvatarFallback>

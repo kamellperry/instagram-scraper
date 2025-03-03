@@ -15,6 +15,15 @@ interface LeadDashboardContentProps {
     onNext: () => void;
 }
 
+/** @todo: remove this function once we have proper asset fetching */
+export function getAssetURL(url: string, options: { testing: boolean; }) {
+    if (options.testing) {
+        return undefined;
+    }
+
+    return `/api?url=${encodeURIComponent(url)}`;
+}
+
 export function LeadDashboardContent({
     currentProfile,
     direction,

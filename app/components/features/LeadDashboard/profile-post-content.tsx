@@ -10,6 +10,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "~/components/ui/badge";
 import type { ProfileData } from "~/lib/types";
 import { ProfileHeader } from "./profile-header";
+/** @todo: remove this function once we have proper asset fetching */
+import { getAssetURL } from "./lead-dashboard-content";
 
 export function ProfilePostContent({ profileData }: { profileData: ProfileData; }) {
     return (
@@ -23,8 +25,7 @@ export function ProfilePostContent({ profileData }: { profileData: ProfileData; 
                 <div className="relative aspect-square overflow-hidden rounded-md sm:aspect-video">
                     {profileData.videoUrl && (
                         <video muted controls className="object-contain w-full h-full">
-                            {/* <source src={profileData.videoUrl} type="video/mp4" /> */}
-                            <source src={undefined} type="video/mp4" />
+                            <source src={getAssetURL(profileData.videoUrl, { testing: true })} type="video/mp4" />
                         </video>
                     )}
                     {profileData.images && profileData.images.length > 0 && (
