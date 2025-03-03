@@ -9,6 +9,7 @@ import { BrandButton } from "~/components/ui";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import type { ProfileData } from "~/lib/types";
+import { ProfileHeader } from "./profile-header";
 
 export function ProfilePostContent({ profileData }: { profileData: ProfileData; }) {
     return (
@@ -16,6 +17,7 @@ export function ProfilePostContent({ profileData }: { profileData: ProfileData; 
             <CardHeader>
                 <CardTitle>Post Content</CardTitle>
                 <CardDescription>Post ID: {profileData.id}</CardDescription>
+                <ProfileHeader profileData={profileData} />
             </CardHeader>
             <CardContent className="grid gap-6">
                 <div className="relative aspect-square overflow-hidden rounded-md sm:aspect-video">
@@ -29,8 +31,16 @@ export function ProfilePostContent({ profileData }: { profileData: ProfileData; 
                         <img src={"/svgs/placeholder.svg"} alt="Post image" className="object-cover" />
                     )}
                 </div>
-                <div>
-                    <h3 className="mb-2 font-semibold">Caption</h3>
+                <div className="space-y-5">
+                    <div className="flex items-center justify-between">
+                        <h3 className="font-semibold">Caption</h3>
+                        <BrandButton variant="blue" size="sm" asChild>
+                            <Link to={profileData.url} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="mr-2 h-4 w-4" />
+                                View Original
+                            </Link>
+                        </BrandButton>
+                    </div>
                     <p className="text-sm text-muted-foreground">{profileData.caption}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -44,24 +54,6 @@ export function ProfilePostContent({ profileData }: { profileData: ProfileData; 
                         ))}
                 </div>
             </CardContent>
-            <CardFooter className="flex justify-between border-t pt-4">
-                <BrandButton variant="blue" size="sm" asChild>
-                    <Link to={profileData.url} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        View Original
-                    </Link>
-                </BrandButton>
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1">
-                        <Heart className="h-4 w-4 text-rose-500" />
-                        <span className="text-sm font-medium">{formatNumber(profileData.likesCount)}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <MessageCircle className="h-4 w-4 text-blue-500" />
-                        <span className="text-sm font-medium">{formatNumber(profileData.commentsCount)}</span>
-                    </div>
-                </div>
-            </CardFooter>
         </Card>
     );
 }

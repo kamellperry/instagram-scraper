@@ -33,22 +33,22 @@ export function LeadDashboardContent({
                 onPrevious={onPrevious}
                 onNext={onNext}
             />
-            <div className="flex flex-1 flex-col p-4 pt-0">
+            <div className="flex flex-1 flex-col p-4">
                 <AnimatePresence mode="wait" initial={false}>
                     <PageTransition
                         key={currentProfile.id}
                         direction={direction}
-                    >
-                        <ProfileHeader profileData={currentProfile} />
-                        <div className="grid gap-6 md:grid-cols-3">
-                            <ProfilePostContent profileData={currentProfile} />
+                        className="grid gap-6 w-full md:grid-cols-2"
 
-                            <div className="grid gap-6">
-                                <ProfilePostDetails
-                                    profileData={currentProfile}
-                                    timestamp={currentProfile.timestamp || undefined}
-                                />
-                            </div>
+                    >
+                        <div>
+                            <ProfilePostContent profileData={currentProfile} />
+                        </div>
+                        <div className="flex flex-col gap-6">
+                            <ProfilePostDetails
+                                profileData={currentProfile}
+                                timestamp={currentProfile.timestamp || undefined}
+                            />
                         </div>
                     </PageTransition>
                 </AnimatePresence>
@@ -60,9 +60,10 @@ export function LeadDashboardContent({
 interface PageTransitionProps {
     children: React.ReactNode;
     direction: number;
+    className?: string;
 }
 
-function PageTransition({ children, direction }: PageTransitionProps) {
+function PageTransition({ children, direction, className }: PageTransitionProps) {
     return (
         <motion.div
             initial={{
@@ -84,7 +85,7 @@ function PageTransition({ children, direction }: PageTransitionProps) {
                 duration: 0.2,
                 ease: "easeInOut",
             }}
-            className="grid gap-6 w-full"
+            className={className}
         >
             {children}
         </motion.div>

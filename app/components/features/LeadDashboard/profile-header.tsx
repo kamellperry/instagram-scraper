@@ -9,8 +9,8 @@ import type { ProfileData } from "~/lib/types";
 export function ProfileHeader({ profileData }: { profileData: ProfileData; }) {
     return (
         <Card>
-            <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-4">
+            <CardHeader className="flex flex-col xl:flex-row xl:items-center xl:justify-between">
+                <div className="flex flex-col xl:flex-row items-center gap-4">
                     <Avatar className="h-16 w-16">
                         <AvatarImage
                             crossOrigin="anonymous"
@@ -29,8 +29,8 @@ export function ProfileHeader({ profileData }: { profileData: ProfileData; }) {
                         </div>
                     </div>
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2 sm:mt-0">
-                    <BrandButton variant="black" size="sm" className="rounded-md">
+                <div className="mt-4 flex gap-2 xl:mt-0">
+                    <BrandButton variant="black" size="sm" className="rounded-md w-full" asChild>
                         <Link
                             to={`https://www.instagram.com/${profileData.ownerUsername}`}
                             target="_blank"
@@ -39,7 +39,7 @@ export function ProfileHeader({ profileData }: { profileData: ProfileData; }) {
                             Follow
                         </Link>
                     </BrandButton>
-                    <BrandButton variant="blue" size="sm" className="rounded-md" asChild>
+                    <BrandButton variant="blue" size="sm" className="rounded-md w-full" asChild>
                         <Link to={`https://ig.me/m/${profileData.ownerUsername}`} target="_blank" rel="noopener noreferrer">
                             Message
                         </Link>

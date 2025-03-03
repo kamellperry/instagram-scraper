@@ -26,7 +26,6 @@ export function ProfilePostDetails({ profileData, timestamp }: { profileData: Pr
 
 function UserDetailsCard({ profileData, timestamp }: { profileData: ProfileData; timestamp: string; }) {
     return (
-
         <Card>
             <CardHeader>
                 <CardTitle>Post Details</CardTitle>
