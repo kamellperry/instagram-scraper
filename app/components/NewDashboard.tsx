@@ -90,7 +90,8 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                         <Avatar className="h-16 w-16">
                             <AvatarImage
                                 crossOrigin="anonymous"
-                                src={`/proxy-image?url=${encodeURIComponent(profileData.displayUrl)}`}
+                                // src={`/api?url=${encodeURIComponent(profileData.displayUrl)}`}
+                                src={null}
                                 alt={profileData.ownerFullName}
                             />
                             <AvatarFallback className="text-lg">{getInitials(profileData.ownerFullName)}</AvatarFallback>
@@ -134,7 +135,8 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                         <div className="relative aspect-square overflow-hidden rounded-md sm:aspect-video">
                             {profileData.videoUrl && (
                                 <video muted controls className="object-contain w-full h-full">
-                                    <source src={profileData.videoUrl} type="video/mp4" />
+                                    {/* <source src={profileData.videoUrl} type="video/mp4" /> */}
+                                    <source src={null} type="video/mp4" />
                                 </video>
                             )}
                             {profileData.images && profileData.images.length > 0 && (

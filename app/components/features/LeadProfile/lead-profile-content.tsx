@@ -1,7 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router";
 import { formatDistanceToNow } from "date-fns";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { formatNumber, getInitials } from "~/lib/utils/utils";
 import {
     Heart,
@@ -11,33 +10,21 @@ import {
     Clock,
     Tag,
     ExternalLink,
-    ChevronLeft,
-    ChevronRight,
-    RefreshCw,
 } from "lucide-react";
-import { AppSidebar } from "../Sidebar/app-sidebar";
-import { BrandButton, Button } from "~/components/ui";
+import { BrandButton } from "~/components/ui";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "~/components/ui/breadcrumb";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import type { ProfileData } from "~/lib/types";
+
 
 interface ProfileContentProps {
     profileData: ProfileData;
     direction: number;
 }
 
-const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
+export function LeadProfileContent({ profileData, direction }: ProfileContentProps) {
     // Format the timestamp to a relative time (e.g., "2 days ago")
     const formattedTime = profileData.timestamp
         ? formatDistanceToNow(new Date(profileData.timestamp), { addSuffix: true })
@@ -73,7 +60,8 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                         <Avatar className="h-16 w-16">
                             <AvatarImage
                                 crossOrigin="anonymous"
-                                src={`/proxy-image?url=${encodeURIComponent(profileData.displayUrl)}`}
+                                // src={`/api?url=${encodeURIComponent(profileData.displayUrl)}`}
+                                src={null}
                                 alt={profileData.ownerFullName}
                             />
                             <AvatarFallback className="text-lg">{getInitials(profileData.ownerFullName)}</AvatarFallback>
@@ -117,7 +105,8 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                         <div className="relative aspect-square overflow-hidden rounded-md sm:aspect-video">
                             {profileData.videoUrl && (
                                 <video muted controls className="object-contain w-full h-full">
-                                    <source src={profileData.videoUrl} type="video/mp4" />
+                                    {/* <source src={profileData.videoUrl} type="video/mp4" /> */}
+                                    <source src={null} type="video/mp4" />
                                 </video>
                             )}
                             {profileData.images && profileData.images.length > 0 && (
@@ -240,107 +229,3 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
         </motion.div>
     );
 };
-
-interface DashboardProps {
-    profiles: ProfileData[];
-    onRefresh?: () => void;
-}
-
-export function ExperimentalDashboard({ profiles, onRefresh }: DashboardProps) {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [direction, setDirection] = useState(0);
-    const [isAnimating, setIsAnimating] = useState(false);
-
-    const currentProfile = profiles[currentIndex];
-
-    const goToNextProfile = useCallback(() => {
-        if (currentIndex < profiles.length - 1 && !isAnimating) {
-            setIsAnimating(true);
-            setDirection(1);
-            setCurrentIndex((prev) => prev + 1);
-            // Reset animating state after animation completes
-            setTimeout(() => setIsAnimating(false), 200);
-        }
-    }, [currentIndex, profiles.length, isAnimating]);
-
-    const goToPreviousProfile = useCallback(() => {
-        if (currentIndex > 0 && !isAnimating) {
-            setIsAnimating(true);
-            setDirection(-1);
-            setCurrentIndex((prev) => prev - 1);
-            // Reset animating state after animation completes
-            setTimeout(() => setIsAnimating(false), 200);
-        }
-    }, [currentIndex, isAnimating]);
-
-    // Add keyboard navigation
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "ArrowRight") {
-                goToNextProfile();
-            } else if (e.key === "ArrowLeft") {
-                goToPreviousProfile();
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [goToNextProfile, goToPreviousProfile]);
-
-    return (
-        <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 border-b">
-                    <div className="flex items-center gap-2 px-4">
-                        <SidebarTrigger className="-ml-1" />
-                        <Separator orientation="vertical" className="mr-2 h-4" />
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">Profiles</BreadcrumbLink>
-                                </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block" />
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>Profile Dashboard</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </BreadcrumbList>
-                        </Breadcrumb>
-                    </div>
-                    <div className="ml-auto flex items-center gap-4 px-4">
-                        {onRefresh && (
-                            <BrandButton onClick={onRefresh} variant="black" size="sm">
-                                <RefreshCw className="mr-2 h-4 w-4" />
-                                Refresh Data
-                            </BrandButton>
-                        )}
-                        <div className="flex items-center gap-2">
-                            <Button variant="outline" size="icon" onClick={goToPreviousProfile} disabled={currentIndex === 0}>
-                                <ChevronLeft className="h-4 w-4" />
-                                <span className="sr-only">Previous profile</span>
-                            </Button>
-                            <span className="text-sm text-muted-foreground">
-                                {currentIndex + 1} of {profiles.length}
-                            </span>
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={goToNextProfile}
-                                disabled={currentIndex === profiles.length - 1}
-                            >
-                                <ChevronRight className="h-4 w-4" />
-                                <span className="sr-only">Next profile</span>
-                            </Button>
-                        </div>
-                    </div>
-                </header>
-                <div className="flex flex-1 flex-col p-4 pt-0">
-                    <AnimatePresence mode="wait" initial={false}>
-                        <ProfileContent key={currentProfile.id} profileData={currentProfile} direction={direction} />
-                    </AnimatePresence>
-                </div>
-            </SidebarInset>
-        </SidebarProvider>
-    );
-}
-

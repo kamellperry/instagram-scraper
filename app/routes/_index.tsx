@@ -6,7 +6,7 @@ import { useRevalidator, type ShouldRevalidateFunctionArgs } from 'react-router'
 import type { Route } from "./+types/_index";
 import type { ProfileData, LoaderErrorData } from '~/lib/types';
 // --
-import { ExperimentalDashboard } from '~/components/NewDashboard';
+import { LeadDashboard } from '~/components/features/LeadDashboard/lead-dashboard';
 
 type LoaderResponse = ProfileData[] | LoaderErrorData;
 
@@ -88,7 +88,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
     }
 
     return (
-        <ExperimentalDashboard profiles={data} onRefresh={handleRefresh} />
+        <LeadDashboard profiles={data} onRefresh={handleRefresh} />
     );
 }
 
