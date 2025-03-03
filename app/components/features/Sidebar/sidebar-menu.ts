@@ -3,20 +3,19 @@ import { BarChart3, Home, Settings, User, Users, LifeBuoy, Send } from "lucide-r
 export const mainNavItems = [
     {
         title: "Dashboard",
-        url: "#",
+        url: "/",
         icon: Home,
-        isActive: true,
         items: [
             {
                 title: "Overview",
                 url: "#",
             },
             {
-                title: "Recent Profiles",
+                title: "CRM",
                 url: "#",
             },
             {
-                title: "Saved Profiles",
+                title: "Analytics",
                 url: "#",
             },
         ],
@@ -25,59 +24,59 @@ export const mainNavItems = [
         title: "Profiles",
         url: "#",
         icon: User,
-        items: [
-            {
-                title: "Browse Profiles",
-                url: "#",
-            },
-            {
-                title: "Search",
-                url: "#",
-            },
-            {
-                title: "Favorites",
-                url: "#",
-            },
-        ],
+        // items: [
+        //     {
+        //         title: "Browse Profiles",
+        //         url: "#",
+        //     },
+        //     {
+        //         title: "Search",
+        //         url: "#",
+        //     },
+        //     {
+        //         title: "Favorites",
+        //         url: "#",
+        //     },
+        // ],
     },
-    {
-        title: "Followers",
-        url: "#",
-        icon: Users,
-        items: [
-            {
-                title: "Manage Followers",
-                url: "#",
-            },
-            {
-                title: "Engagement",
-                url: "#",
-            },
-            {
-                title: "Growth",
-                url: "#",
-            },
-        ],
-    },
-    {
-        title: "Analytics",
-        url: "#",
-        icon: BarChart3,
-        items: [
-            {
-                title: "Performance",
-                url: "#",
-            },
-            {
-                title: "Reports",
-                url: "#",
-            },
-            {
-                title: "Insights",
-                url: "#",
-            },
-        ],
-    },
+    // {
+    //     title: "Followers",
+    //     url: "#",
+    //     icon: Users,
+    //     items: [
+    //         {
+    //             title: "Manage Followers",
+    //             url: "#",
+    //         },
+    //         {
+    //             title: "Engagement",
+    //             url: "#",
+    //         },
+    //         {
+    //             title: "Growth",
+    //             url: "#",
+    //         },
+    //     ],
+    // },
+    // {
+    //     title: "Analytics",
+    //     url: "#",
+    //     icon: BarChart3,
+    //     items: [
+    //         {
+    //             title: "Performance",
+    //             url: "#",
+    //         },
+    //         {
+    //             title: "Reports",
+    //             url: "#",
+    //         },
+    //         {
+    //             title: "Insights",
+    //             url: "#",
+    //         },
+    //     ],
+    // },
     {
         title: "Settings",
         url: "#",
@@ -87,27 +86,27 @@ export const mainNavItems = [
                 title: "Account",
                 url: "#",
             },
-            {
-                title: "Preferences",
-                url: "#",
-            },
-            {
-                title: "API",
-                url: "#",
-            },
+            // {
+            //     title: "Preferences",
+            //     url: "#",
+            // },
+            // {
+            //     title: "API",
+            //     url: "#",
+            // },
         ],
     },
 ];
 
 export const secondaryNavItems = [
-    {
-        title: "Support",
-        url: "#",
-        icon: LifeBuoy,
-    },
-    {
-        title: "Feedback",
-        url: "#",
-        icon: Send,
-    },
+    // {
+    //     title: "Support",
+    //     url: "#",
+    //     icon: LifeBuoy,
+    // },
+    // {
+    //     title: "Feedback",
+    //     url: "#",
+    //     icon: Send,
+    // },
 ];

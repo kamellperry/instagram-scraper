@@ -1,4 +1,5 @@
 import { RefreshCw } from "lucide-react";
+import { useLocation } from "react-router";
 import { BrandButton } from "~/components/ui";
 import { Separator } from "~/components/ui/separator";
 import { SidebarTrigger } from "~/components/ui/sidebar";
@@ -22,6 +23,18 @@ interface LeadDashboardHeaderProps {
 }
 
 export function LeadDashboardHeader({ onRefresh, currentIndex, profiles, onPrevious, onNext }: LeadDashboardHeaderProps) {
+    const { pathname } = useLocation();
+
+    const getBreadcrumb = (path: string) => {
+        const isLeadDashboard = path === "/";
+        if (isLeadDashboard) return "Dashboard";
+
+        const pathParts = path.split("/");
+        const profileId = pathParts[pathParts.length - 1];
+
+        return `Lead ${profileId}`;
+    };
+
     return (
         <header className="flex h-16 shrink-0 items-center gap-2 border-b">
             <div className="flex items-center gap-2 px-4">
@@ -30,11 +43,11 @@ export function LeadDashboardHeader({ onRefresh, currentIndex, profiles, onPrevi
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href="#">Profiles</BreadcrumbLink>
+                            <BreadcrumbLink href="#">{getBreadcrumb(pathname)}</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>Profile Dashboard</BreadcrumbPage>
+                            <BreadcrumbPage>{getBreadcrumb(pathname) === "Dashboard" ? "Leads" : getBreadcrumb(pathname)}</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
