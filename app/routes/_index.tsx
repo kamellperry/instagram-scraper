@@ -1,60 +1,18 @@
-import Dashboard from '~/components/Dashboard';
 import { useCallback } from 'react';
-import { PageWrapper } from "~/components/global";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, BrandButton } from '~/components/ui';
-import { AlertCircle, RefreshCw } from 'lucide-react';
-import type { Route } from "./+types/_index";
-import type { ProfileData } from '~/lib/types';
+import { PROD_URL, DEV_URL } from '~/lib/constants/URL';
+import { PageError } from '~/components/global/page-error';
+import { createCache } from '~/lib/server/api';
 import { useRevalidator, type ShouldRevalidateFunctionArgs } from 'react-router';
+import type { Route } from "./+types/_index";
+import type { ProfileData, LoaderErrorData } from '~/lib/types';
 // --
 import { ExperimentalDashboard } from '~/components/NewDashboard';
-import { AppSidebar } from "~/components/features/Sidebar/app-sidebar";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "~/components/ui/breadcrumb";
-import { Separator } from "~/components/ui/separator";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
-
-const URL = [
-    // "https://eros-co.app.n8n.cloud/webhook/17badf3a-b82f-459c-8951-85faf4210229",
-    "https://eros-co.app.n8n.cloud/webhook-test/17badf3a-b82f-459c-8951-85faf4210229"
-].join("");
-
-export interface LoaderErrorData {
-    code: number;
-    message: string;
-    hint: string;
-}
 
 type LoaderResponse = ProfileData[] | LoaderErrorData;
 
-// Create a simple cache mechanism
-let cache = {
-    data: null as LoaderResponse | null,
-    timestamp: 0,
-    maxAge: 1000 * 60 * 30, // 30 minutes cache lifetime
+const cache = createCache<LoaderResponse>();
 
-    isValid() {
-        return this.data && (Date.now() - this.timestamp < this.maxAge);
-    },
-
-    set(data: LoaderResponse) {
-        this.data = data;
-        this.timestamp = Date.now();
-    },
-
-    invalidate() {
-        this.data = null;
-        this.timestamp = 0;
-    }
-};
-
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ }: Route.LoaderArgs) {
     // Check if we have valid cached data
     if (cache.isValid()) {
         if (!cache.data) {
@@ -68,7 +26,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     // Otherwise fetch fresh data
     try {
         console.log("Fetching fresh data");
-        const response = await fetch(URL);
+        const response = await fetch(DEV_URL);
         const data: ProfileData[] = await response.json();
 
         if (!data || !Array.isArray(data)) {
@@ -128,70 +86,9 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             onRefresh={handleRefresh}
         />;
     }
+
     return (
         <ExperimentalDashboard profiles={data} onRefresh={handleRefresh} />
     );
 }
 
-// Root
-export function _Page({ loaderData }: Route.ComponentProps) {
-    const { data } = loaderData;
-    const revalidator = useRevalidator();
-
-    const handleRefresh = useCallback(() => {
-        // Invalidate cache and trigger revalidation
-        cache.invalidate();
-        revalidator.revalidate();
-    }, [revalidator]);
-
-    if (!(data instanceof Array)) {
-        const { message, code, hint } = data;
-
-        return <PageError
-            message={message}
-            code={code}
-            hint={hint}
-            onRefresh={handleRefresh}
-        />;
-    }
-
-
-    return (
-        <Dashboard profiles={data} onRefresh={handleRefresh} />
-    );
-}
-
-function PageError({
-    message,
-    code,
-    hint,
-    onRefresh
-}: LoaderErrorData & {
-    onGoBack?: () => void,
-    onRefresh: () => void;
-}) {
-    return (
-        <PageWrapper>
-            <Card className="mx-auto max-w-md shadow-lg">
-                <CardHeader className="space-y-1">
-                    <div className="flex items-center gap-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-destructive/10">
-                            <AlertCircle className="h-6 w-6 text-destructive" />
-                        </div>
-                        <CardTitle className="text-2xl">Error {code}</CardTitle>
-                    </div>
-                    <CardDescription className="text-base font-medium text-foreground">{message}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">{hint}</p>
-                </CardContent>
-                <CardFooter className="flex flex-col space-y-2 sm:flex-row sm:justify-between sm:space-x-2 sm:space-y-0">
-                    <BrandButton variant='black' className="w-full" onClick={() => window.location.reload()}>
-                        <RefreshCw className="mr-2 h-4 w-4" />
-                        Try Again
-                    </BrandButton>
-                </CardFooter>
-            </Card>
-        </PageWrapper>
-    );
-}

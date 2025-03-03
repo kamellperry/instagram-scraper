@@ -1,0 +1,2 @@
+export const PROD_URL = "https://eros-co.app.n8n.cloud/webhook/17badf3a-b82f-459c-8951-85faf4210229" as const;
+export const DEV_URL = "https://eros-co.app.n8n.cloud/webhook-test/17badf3a-b82f-459c-8951-85faf4210229" as const;

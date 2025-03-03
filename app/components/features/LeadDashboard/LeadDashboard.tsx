@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router";
 import { formatDistanceToNow } from "date-fns";
 import { motion, AnimatePresence } from "motion/react";
+import { formatNumber, getInitials } from "~/lib/utils/utils";
 import {
     Heart,
     MapPin,
@@ -41,21 +42,6 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
     const formattedTime = profileData.timestamp
         ? formatDistanceToNow(new Date(profileData.timestamp), { addSuffix: true })
         : "Unknown date";
-
-    // Format large numbers with commas
-    const formatNumber = (num: number) => {
-        return num.toLocaleString();
-    };
-
-    // Get initials for avatar fallback
-    const getInitials = (name: string) => {
-        return name
-            .split(" ")
-            .map((part) => part.charAt(0))
-            .splice(0, 2)
-            .join("")
-            .toUpperCase();
-    };
 
     return (
         <motion.div

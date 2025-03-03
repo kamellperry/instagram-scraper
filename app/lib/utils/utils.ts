@@ -37,3 +37,12 @@ export function getInitials(name: string) {
         .join("")
         .toUpperCase();
 };
+
+/**
+ * Format large numbers with commas
+ * @param num - The number to format
+ * @returns The formatted number
+ */
+export function formatNumber(num: number) {
+    return num.toLocaleString();
+};
