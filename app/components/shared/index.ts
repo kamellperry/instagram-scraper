@@ -1,1 +1,1 @@
-export { };
+export { DashboardPagination, type DashboardPaginationProps } from './dashboard-pagination';
