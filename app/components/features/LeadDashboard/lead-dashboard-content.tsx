@@ -60,13 +60,11 @@ export function LeadDashboardContent({
 interface PageTransitionProps {
     children: React.ReactNode;
     direction: number;
-    key: React.Key;
 }
 
-function PageTransition({ children, direction, key }: PageTransitionProps) {
+function PageTransition({ children, direction }: PageTransitionProps) {
     return (
         <motion.div
-            key={key}
             initial={{
                 opacity: 0,
                 x: direction >= 0 ? -100 : 100,

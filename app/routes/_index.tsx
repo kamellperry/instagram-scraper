@@ -84,7 +84,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             message={message}
             code={code}
             hint={hint}
-            onRefresh={handleRefresh}
+            onRefresh={() => window.location.reload()}
         />;
     }
 
