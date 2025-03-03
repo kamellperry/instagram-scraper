@@ -1,4 +1,4 @@
-import type { Route } from './+types/proxy-image';
+import type { Route } from './+types/route';
 
 export async function loader({ request }: Route.LoaderArgs) {
     // Extract the Instagram URL from the query parameter
