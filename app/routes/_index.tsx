@@ -69,6 +69,7 @@ export function shouldRevalidate({ formAction, formMethod, defaultShouldRevalida
 export default function Page({ loaderData }: Route.ComponentProps) {
     const { data } = loaderData;
     const revalidator = useRevalidator();
+    const isData = data instanceof Array;
 
     const handleRefresh = useCallback(() => {
         // Invalidate cache and trigger revalidation
@@ -76,7 +77,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         revalidator.revalidate();
     }, [revalidator]);
 
-    if (!(data instanceof Array)) {
+    if (!isData) {
         const { message, code, hint } = data;
 
         return <PageError
