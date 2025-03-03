@@ -17,7 +17,7 @@ import {
     RefreshCw,
 } from "lucide-react";
 
-import { AppSidebar } from "./app-sidebar";
+import { AppSidebar } from "./features/Sidebar/app-sidebar";
 import { BrandButton, Button } from "~/components/ui";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";

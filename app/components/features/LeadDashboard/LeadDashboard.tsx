@@ -3,41 +3,33 @@ import { Link } from "react-router";
 import { formatDistanceToNow } from "date-fns";
 import { motion, AnimatePresence } from "motion/react";
 import {
-    BarChart3,
     Heart,
-    Home,
-    FlaskConical,
     MapPin,
     MessageCircle,
-    Settings,
-    User,
-    Users,
     Calendar,
     Clock,
     Tag,
     ExternalLink,
-    Menu,
     ChevronLeft,
     ChevronRight,
     RefreshCw,
 } from "lucide-react";
+import { AppSidebar } from "../Sidebar/app-sidebar";
 import { BrandButton, Button } from "~/components/ui";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarProvider,
-    SidebarTrigger,
-} from "~/components/ui/sidebar";
-import type { ProfileData } from '~/lib/types';
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "~/components/ui/breadcrumb";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
+import type { ProfileData } from "~/lib/types";
 
 interface ProfileContentProps {
     profileData: ProfileData;
@@ -58,10 +50,10 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
     // Get initials for avatar fallback
     const getInitials = (name: string) => {
         return name
-            .split(' ')
+            .split(" ")
             .map((part) => part.charAt(0))
             .splice(0, 2)
-            .join('')
+            .join("")
             .toUpperCase();
     };
 
@@ -111,7 +103,11 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2 sm:mt-0">
                         <BrandButton variant="black" size="sm" className="rounded-md">
-                            <Link to={`https://www.instagram.com/${profileData.ownerUsername}`} target="_blank" rel="noopener noreferrer">
+                            <Link
+                                to={`https://www.instagram.com/${profileData.ownerUsername}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 Follow
                             </Link>
                         </BrandButton>
@@ -139,11 +135,7 @@ const ProfileContent = ({ profileData, direction }: ProfileContentProps) => {
                                 </video>
                             )}
                             {profileData.images && profileData.images.length > 0 && (
-                                <img
-                                    src={"/svgs/placeholder.svg"}
-                                    alt="Post image"
-                                    className="object-cover"
-                                />
+                                <img src={"/svgs/placeholder.svg"} alt="Post image" className="object-cover" />
                             )}
                         </div>
                         <div>
@@ -268,9 +260,8 @@ interface DashboardProps {
     onRefresh?: () => void;
 }
 
-export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
+export function ExperimentalDashboard({ profiles, onRefresh }: DashboardProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [direction, setDirection] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
 
@@ -286,7 +277,6 @@ export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
         }
     }, [currentIndex, profiles.length, isAnimating]);
 
-
     const goToPreviousProfile = useCallback(() => {
         if (currentIndex > 0 && !isAnimating) {
             setIsAnimating(true);
@@ -296,14 +286,6 @@ export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
             setTimeout(() => setIsAnimating(false), 200);
         }
     }, [currentIndex, isAnimating]);
-
-    const getInitials = (name: string) => {
-        return name
-            .split(" ")
-            .map((part) => part.charAt(0))
-            .join("")
-            .toUpperCase();
-    };
 
     // Add keyboard navigation
     useEffect(() => {
@@ -317,190 +299,62 @@ export default function Dashboard({ profiles, onRefresh }: DashboardProps) {
 
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [currentIndex, isAnimating, goToNextProfile, goToPreviousProfile]);
+    }, [goToNextProfile, goToPreviousProfile]);
 
     return (
         <SidebarProvider>
-            <div className="flex min-h-screen bg-muted/40">
-                <Sidebar className="hidden md:flex">
-                    <SidebarHeader className="flex h-14 items-center border-b px-4 flex-row justify-center">
-                        <Link to="#" className="flex items-center gap-2 font-semibold">
-                            <FlaskConical className="h-6 w-6" />
-                            <span>Leads Dashboard</span>
-                        </Link>
-                    </SidebarHeader>
-                    <SidebarContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive>
-                                    <Link to="#">
-                                        <Home className="h-4 w-4" />
-                                        <span>Dashboard</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link to="#">
-                                        <User className="h-4 w-4" />
-                                        <span>Profile</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link to="#">
-                                        <Users className="h-4 w-4" />
-                                        <span>Followers</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link to="#">
-                                        <BarChart3 className="h-4 w-4" />
-                                        <span>Analytics</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link to="#">
-                                        <Settings className="h-4 w-4" />
-                                        <span>Settings</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarContent>
-                    <SidebarFooter className="border-t p-4">
+            <AppSidebar />
+            <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 border-b">
+                    <div className="flex items-center gap-2 px-4">
+                        <SidebarTrigger className="-ml-1" />
+                        <Separator orientation="vertical" className="mr-2 h-4" />
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem className="hidden md:block">
+                                    <BreadcrumbLink href="#">Profiles</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator className="hidden md:block" />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>Profile Dashboard</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
+                    </div>
+                    <div className="ml-auto flex items-center gap-4 px-4">
+                        {onRefresh && (
+                            <BrandButton onClick={onRefresh} variant="black" size="sm">
+                                <RefreshCw className="mr-2 h-4 w-4" />
+                                Refresh Data
+                            </BrandButton>
+                        )}
                         <div className="flex items-center gap-2">
-                            <Avatar>
-                                <AvatarImage
-                                    src={"/images/logo.png"}
-                                    alt={"Alchemy"}
-                                />
-                                <AvatarFallback>{getInitials("Alchemy")}</AvatarFallback>
-                            </Avatar>
-                            <div className="grid gap-0.5">
-                                <p className="text-sm font-medium">Alchemy</p>
-                                <p className="text-xs text-muted-foreground">@alchemylabs</p>
-                            </div>
+                            <Button variant="outline" size="icon" onClick={goToPreviousProfile} disabled={currentIndex === 0}>
+                                <ChevronLeft className="h-4 w-4" />
+                                <span className="sr-only">Previous profile</span>
+                            </Button>
+                            <span className="text-sm text-muted-foreground">
+                                {currentIndex + 1} of {profiles.length}
+                            </span>
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={goToNextProfile}
+                                disabled={currentIndex === profiles.length - 1}
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                                <span className="sr-only">Next profile</span>
+                            </Button>
                         </div>
-                    </SidebarFooter>
-                </Sidebar>
-
-                <div className="flex flex-1 flex-col">
-                    <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
-                        <BrandButton
-                            variant="white"
-                            size="icon"
-                            className="md:hidden"
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        >
-                            <Menu className="h-5 w-5" />
-                            <span className="sr-only">Toggle menu</span>
-                        </BrandButton>
-                        <div className="flex flex-1 items-center justify-between">
-                            <h1 className="text-lg font-semibold">Profile Dashboard</h1>
-                            <div className="flex items-center gap-10">
-                                {onRefresh && (
-                                    <BrandButton onClick={onRefresh} variant="black" size="sm">
-                                        <RefreshCw className="mr-2 h-4 w-4" />
-                                        Refresh Data
-                                    </BrandButton>
-                                )}
-                                <div className="flex items-center gap-2">
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        onClick={goToPreviousProfile}
-                                        disabled={currentIndex === 0}
-                                    >
-                                        <ChevronLeft className="h-4 w-4" />
-                                        <span className="sr-only">Previous profile</span>
-                                    </Button>
-                                    <span className="text-sm text-muted-foreground">
-                                        {currentIndex + 1} of {profiles.length}
-                                    </span>
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        onClick={goToNextProfile}
-                                        disabled={currentIndex === profiles.length - 1}
-                                    >
-                                        <ChevronRight className="h-4 w-4" />
-                                        <span className="sr-only">Next profile</span>
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                        <SidebarTrigger className="hidden md:flex" />
-                    </header>
-
-                    {isMobileMenuOpen && (
-                        <div className="fixed inset-0 z-50 bg-background md:hidden">
-                            <div className="flex h-14 items-center border-b px-4">
-                                <BrandButton variant="white" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                                    <Menu className="h-5 w-5" />
-                                    <span className="sr-only">Close menu</span>
-                                </BrandButton>
-                                <div className="ml-4">
-                                    <h2 className="text-lg font-semibold">Menu</h2>
-                                </div>
-                            </div>
-                            <nav className="grid gap-2 p-4">
-                                <Link
-                                    to="#"
-                                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    <Home className="h-4 w-4" />
-                                    <span>Dashboard</span>
-                                </Link>
-                                <Link
-                                    to="#"
-                                    className="flex items-center gap-2 rounded-md bg-muted px-3 py-2 text-sm font-medium"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    <User className="h-4 w-4" />
-                                    <span>Profile</span>
-                                </Link>
-                                <Link
-                                    to="#"
-                                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    <Users className="h-4 w-4" />
-                                    <span>Followers</span>
-                                </Link>
-                                <Link
-                                    to="#"
-                                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    <BarChart3 className="h-4 w-4" />
-                                    <span>Analytics</span>
-                                </Link>
-                                <Link
-                                    to="#"
-                                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    <Settings className="h-4 w-4" />
-                                    <span>Settings</span>
-                                </Link>
-                            </nav>
-                        </div>
-                    )}
-
-                    <main className="flex-1 overflow-auto p-4 sm:p-6">
-                        <AnimatePresence mode="wait" initial={false}>
-                            <ProfileContent key={currentProfile.id} profileData={currentProfile} direction={direction} />
-                        </AnimatePresence>
-                    </main>
+                    </div>
+                </header>
+                <div className="flex flex-1 flex-col p-4 pt-0">
+                    <AnimatePresence mode="wait" initial={false}>
+                        <ProfileContent key={currentProfile.id} profileData={currentProfile} direction={direction} />
+                    </AnimatePresence>
                 </div>
-            </div>
+            </SidebarInset>
         </SidebarProvider>
     );
 }
+

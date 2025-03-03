@@ -8,7 +8,7 @@ import type { ProfileData } from '~/lib/types';
 import { useRevalidator, type ShouldRevalidateFunctionArgs } from 'react-router';
 // --
 import { ExperimentalDashboard } from '~/components/NewDashboard';
-import { AppSidebar } from "~/components/app-sidebar";
+import { AppSidebar } from "~/components/features/Sidebar/app-sidebar";
 import {
     Breadcrumb,
     BreadcrumbItem,
